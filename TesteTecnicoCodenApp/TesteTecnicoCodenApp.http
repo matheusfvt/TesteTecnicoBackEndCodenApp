@@ -1,6 +1,35 @@
 @TesteTecnicoCodenApp_HostAddress = http://localhost:5296
 
-GET {{TesteTecnicoCodenApp_HostAddress}}/weatherforecast/
-Accept: application/json
+### Cadastrar orçamento (sucesso - 201 Created)
+POST {{TesteTecnicoCodenApp_HostAddress}}/api/orcamentos
+Content-Type: application/json
 
-###
+{
+  "clienteId": 10,
+  "veiculoId": 25,
+  "itens": [
+    { "descricao": "Troca de óleo", "quantidade": 1, "valorUnitario": 120.00 },
+    { "descricao": "Filtro de óleo", "quantidade": 1, "valorUnitario": 45.00 }
+  ]
+}
+
+### Cadastrar orçamento (erro - 400 Bad Request: sem clienteId, sem itens)
+POST {{TesteTecnicoCodenApp_HostAddress}}/api/orcamentos
+Content-Type: application/json
+
+{
+  "veiculoId": 25,
+  "itens": []
+}
+
+### Cadastrar orçamento (erro - 400 Bad Request: item inválido)
+POST {{TesteTecnicoCodenApp_HostAddress}}/api/orcamentos
+Content-Type: application/json
+
+{
+  "clienteId": 10,
+  "veiculoId": 25,
+  "itens": [
+    { "descricao": "", "quantidade": 0, "valorUnitario": -5 }
+  ]
+}
